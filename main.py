@@ -79,7 +79,7 @@ for filename in fileList:
       idField = lines.split(',', 1)[0]
   #Appears cbImport does not create the collections when importing
   db_admin.createCollection(DEST_USERNAME, DEST_PASSWORD, DEST_HOST, DEST_DBNAME, '_default', Path(filename).stem)
-  cmd='cbimport csv -c couchbase://' + DEST_HOST + ' -u ' + DEST_USERNAME + ' -p ' + DEST_PASSWORD + ' -b ' + DEST_DBNAME + '  -d file://' + filename  + ' -g key::%' + idField + '% -t 4 --scope-collection-exp _default.'+ Path(filename).stem
+  cmd='cbimport csv -c couchbase://' + DEST_HOST + ' -u ' + DEST_USERNAME + ' -p ' + DEST_PASSWORD + ' -b ' + DEST_DBNAME + '  -d file://' + filename  + ' -g key::%' + idField + '% -t 4 --scope-collection-exp ' + DEST_SCOPE + '.'+ Path(filename).stem
   print(cmd)
   os.system(cmd)
 print ('Import Complete....')

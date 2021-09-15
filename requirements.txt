@@ -1,0 +1,4 @@
+couch==1.0.1
+couchbase==3.0.10
+mysql-connector-python==8.0.26
+mysqlclient==2.0.3 

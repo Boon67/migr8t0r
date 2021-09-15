@@ -2,8 +2,10 @@ version: '3.1'
 
 services:
   mysql:
+    container_name: mysql-node
     # image: mysql
-    build: ./srcdb
+    build: 
+      context: ./srcdb
 
     command: --default-authentication-plugin=mysql_native_password
     restart: always
@@ -11,4 +13,23 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_ROOT_HOST: '%' 
     ports:
-        - 3306:3306  
+        - 3306:3306 
+
+  couchbase-node_1:
+    container_name: couchbase-db
+    build:
+      context: ./destdb
+    ports:
+      - "8091-8094:8091-8094"
+      - "11210:11210"
+    environment:
+      NODE_TYPE: DEFAULT
+      CLUSTER_USERNAME: Administrator #Initial Cluster Login ID
+      CLUSTER_PASSWORD: password #Cluster Password
+      CLUSTER_NAME: Couchbase Cluster 1 #Cluster Name
+      SERVICES: data,index,query,fts,eventing,analytics #Services to enable on the cluster
+      CLUSTER_RAMSIZE: '4096'  #Make sure your docker instance is big enough
+      BUCKET: default #Create a default bucket
+      BUCKET_RAMSIZE: '256' #Ram size for the bucket
+      ENABLE_FLUSH: 1 #Flush enabled for the bucket
+      SAMPLE_BUCKETS: beer-sample,travel-sample #TODO: If you want to add smaple buckets (not working) 

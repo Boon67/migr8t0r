@@ -7,6 +7,7 @@ DEST_HOST='localhost'
 DEST_USERNAME='Administrator'
 DEST_PASSWORD='password'
 DEST_DBNAME='sportsdb'
+DEST_SCOPE='_default' #Do not change as we don't have logic to build the scopes...yet
 DB_PORT='8091'
 RAMQUOTA='256'
 
