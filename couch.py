@@ -2,59 +2,56 @@ import requests
 from couchbase.cluster import Cluster
 from couchbase.auth import PasswordAuthenticator
 
-DB_PORT='8091'
-RAMQUOTA='256'
-
 class Admin():
     def __init__(self):
         self.data = []
-    def createBucket(self, uid, pwd, host, bucket, drop=False):
+    def createBucket(self, uid, pwd, host, bucket, drop=False, ramquota=256, db_port=8091):
         if drop:
             print('Dropping Bucket')        
             self.dropBucket(uid, pwd, host, bucket)
         data = {
         'name': bucket,
-        'ramQuotaMB': RAMQUOTA,
+        'ramQuotaMB': ramquota,
         'flushEnabled' : 1
         }
-        url='http://' + host + ':' + DB_PORT + '/pools/default/buckets/'
+        url='http://' + host + ':' + str(db_port) + '/pools/default/buckets/'
         print(url)
         response = requests.post(url, data=data, auth=(uid, pwd))
         print(response)
 
-    def createScope(self, uid, pwd, host, bucket, scope):
+    def createScope(self, uid, pwd, host, bucket, scope, db_port=8091):
         data = {
         'name': scope
         }
-        url='http://' + host + ':' + DB_PORT +'/pools/default/buckets/' + bucket + '/scopes'
+        url='http://' + host + ':' + str(db_port) +'/pools/default/buckets/' + bucket + '/scopes'
         print(url)
         response = requests.post(url, data=data, auth=(uid, pwd))
         print(response)
 
-    def createScope(self, uid, pwd, host, bucket, scope):
-        url='http://' + host + ':' + DB_PORT +'/pools/default/buckets/' + bucket + '/scopes/' + scope
+    def createScope(self, uid, pwd, host, bucket, scope, db_port=8091):
+        url='http://' + host + ':' + str(db_port) +'/pools/default/buckets/' + bucket + '/scopes/' + scope
         print(url)
         response = requests.delete(url, auth=(uid, pwd))
         print(response)
 
-    def createCollection(self, uid, pwd, host, bucket, scope, collection):
+    def createCollection(self, uid, pwd, host, bucket, scope, collection, db_port=8091):
         data = {
         'name': collection,
         'maxTTL': 0
         }
-        url='http://' + host + ':' + DB_PORT +'/pools/default/buckets/' + bucket + '/scopes/' + scope + "/collections"
+        url='http://' + host + ':' + str(db_port) +'/pools/default/buckets/' + bucket + '/scopes/' + scope + "/collections"
         print(url)
         response = requests.post(url, data=data, auth=(uid, pwd))
         print(response)
 
-    def dropCollection(self, uid, pwd, host, bucket, scope, collection):
-        url='http://' + host + ':' + DB_PORT +'/pools/default/buckets/' + bucket + '/scopes/' + scope + "/collections/" + collection
+    def dropCollection(self, uid, pwd, host, bucket, scope, collection, db_port=8091):
+        url='http://' + host + ':' + str(db_port) +'/pools/default/buckets/' + bucket + '/scopes/' + scope + "/collections/" + collection
         print(url)
         response = requests.delete(url, auth=(uid, pwd))
         print(response)
 
-    def dropBucket(self, uid, pwd, host, bucket):
-        url='http://' + host + ':' + DB_PORT +'/pools/default/buckets/' + bucket
+    def dropBucket(self, uid, pwd, host, bucket, db_port=8091):
+        url='http://' + host + ':' + str(db_port) +'/pools/default/buckets/' + bucket
         response = requests.delete(url, auth=(uid, pwd))
         print(response)
 

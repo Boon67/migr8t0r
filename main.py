@@ -4,21 +4,11 @@ import csv
 import os
 import shutil
 import couch
+from globals import *
 from pathlib import Path
 
-SRC_HOST='localhost'
-SRC_USERNAME='root'
-SRC_PASSWORD='password'
-SRC_DBNAME='sportsdb'
-
-DEST_HOST='localhost'
-DEST_USERNAME='Administrator'
-DEST_PASSWORD='password'
-DEST_DBNAME='sportsdb'
-
 db_admin=couch.Admin()
-datadir = 'db_data'
-schemadir = 'db_schema'
+
 
 ###Helper for getting file paths based upon where the script is instantiated
 def absoluteFilePaths(directory):
@@ -27,9 +17,13 @@ def absoluteFilePaths(directory):
       yield os.path.abspath(os.path.join(dirpath, f))
 
 #Setup the file system
-if os.path.exists(schemadir):
-    shutil.rmtree(schemadir)
-os.makedirs(schemadir)
+if os.path.exists(SCHEMADIR):
+    shutil.rmtree(SCHEMADIR)
+os.makedirs(SCHEMADIR)
+
+if os.path.exists(DATADIR):
+    shutil.rmtree(DATADIR)
+os.makedirs(DATADIR)
 
 db_admin.createBucket(DEST_USERNAME, DEST_PASSWORD, DEST_HOST, DEST_DBNAME, True)
 
@@ -54,7 +48,7 @@ for t in tables:
     cur.execute("SHOW CREATE TABLE `{}`".format(t))
     temptxt = '{}.txt'.format(t)
 
-    with open(schemadir + '/' + temptxt, 'w', newline='') as txtfile:
+    with open(SCHEMADIR + '/' + temptxt, 'w', newline='') as txtfile:
         txtfile.write(cur.fetchone()[1])                   # ONE RECORD FETCH
     txtfile.close()
 
@@ -62,7 +56,7 @@ for t in tables:
     cur.execute("SELECT * FROM `{}`".format(t))
     tempcsv = '{}.csv'.format(t)
 
-    with open(datadir + '/' + tempcsv, 'w', newline='') as csvfile:
+    with open(DATADIR + '/' + tempcsv, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow([i[0] for i in cur.description])   # COLUMN HEADERS
         for row in cur.fetchall():        
@@ -77,7 +71,7 @@ print('Export Complete.')
 
 ### Couchbase Magic here. Requires cbimport to be on the path of the environment where this is executing
 print ('Starting Import....')
-fileList=absoluteFilePaths(datadir)
+fileList=absoluteFilePaths(DATADIR)
 for filename in fileList:
   print(filename)
   with open(filename) as f:
