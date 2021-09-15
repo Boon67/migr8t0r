@@ -3,15 +3,16 @@ version: '3.1'
 services:
   mysql:
     container_name: mysql-node
-    # image: mysql
     build: 
       context: ./srcdb
-
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_ROOT_HOST: '%' 
+      #MYSQL_DATABASE: 'sportsdb'
+      #MYSQL_USER: 'sportsdb'
+      #MYSQL_password: 'password'
     ports:
         - 3306:3306 
 

@@ -1,5 +1,5 @@
 SRC_HOST='localhost'
-SRC_USERNAME='root'
+SRC_USERNAME='sportsdb'
 SRC_PASSWORD='password'
 SRC_DBNAME='sportsdb'
 
