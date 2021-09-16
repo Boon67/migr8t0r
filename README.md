@@ -4,11 +4,15 @@ Project is a simple workflow tool to do an export from a Database (MySQL) to Cou
 as a script.
 
 ### Requirements
+*cbimport to be on path for script to run
+*python3 installed
+*docker installed
+
 The script leverages the cbimport tool, which it is assumed that it is available on the executing host. 
 It's also assumed there is enough storage to export the data from the source database.
 Assumed login permissions exist to export data, as welll as Couchbase permissions to drop the target bucket.
 
-##### Blah Blah Blah I want to go now
+##### Blah Blah Blah I want to go now!!!
 Assuming all components required are installed, you can run the init.sh script. You will most likely need to make it executable 'chmod +x ./init.sh' Then just run init.sh. 
 
 During testing found that it takes a while for the mysql environment to get setup. So there's a 5 minute delay to address that. If it fails you can run python3 main.py to kick off the migration script.
