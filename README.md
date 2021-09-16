@@ -3,10 +3,10 @@
 Project is a simple workflow tool to do an export from a Database (MySQL) to Couchbase. It's intended to run 
 as a script.
 
-### Requirements
-*cbimport to be on path for script to run
-*python3 installed
-*docker installed
+### Environment Requirements
+- cbimport to be on path for script to run
+- python3 installed and on path
+- docker installed
 
 The script leverages the cbimport tool, which it is assumed that it is available on the executing host. 
 It's also assumed there is enough storage to export the data from the source database.
