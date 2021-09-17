@@ -1,7 +1,7 @@
 docker-compose -f "docker-compose.yml" down
 docker-compose -f "docker-compose.yml" up -d --build
 
-python -m pip install -r ./requirements.txt
+python -m pip install -r ./requirements.txt --user
 echo 'Waiting for Environment to Initialize (its mysqls fault) 300 seconds........'
 sleep 300
 echo 'The wait is over'
