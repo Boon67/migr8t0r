@@ -5,6 +5,12 @@ services:
     container_name: mysql-node
     build: 
       context: ./srcdb
+    volumes:
+      - type: volume
+        source: mysql-data
+        target: /usr/mysqldata
+        volume:
+          nocopy: true
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
@@ -18,6 +24,12 @@ services:
 
   couchbase-node_1:
     container_name: couchbase-db
+    volumes:
+      - type: volume
+        source: couchbase-data
+        target: /usr/cbdata
+        volume:
+          nocopy: true
     build:
       context: ./destdb
     ports:
@@ -34,3 +46,9 @@ services:
       BUCKET_RAMSIZE: '256' #Ram size for the bucket
       ENABLE_FLUSH: 1 #Flush enabled for the bucket
       SAMPLE_BUCKETS: beer-sample,travel-sample #TODO: If you want to add smaple buckets (not working) 
+
+volumes:
+  mysql-data: 
+    external: true
+  couchbase-data: 
+    external: true
